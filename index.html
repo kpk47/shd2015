@@ -64,11 +64,13 @@ text {
 }
 
 </style>
-<link rel="stylesheet" href="../Tools/tipsy/src/stylesheets/tipsy.css" type="text/css">
+<!-- <link rel="stylesheet" href="../Tools/tipsy/src/stylesheets/tipsy.css" type="text/css">
+ <script type="text/javascript" src="../Tools/jquery/jquery-2.1.4.min.js"></script>
+ <script type="text/javascript" src="../Tools/tipsy/src/javascripts/jquery.tipsy.js"></script>
+-->
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="../Tools/jquery/jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="../Tools/tipsy/src/javascripts/jquery.tipsy.js"></script>
+
 <script>
 /*
  Need to add title as tooltip
@@ -79,20 +81,40 @@ var links = [
   {source: "4", target: "3", type: "cites"},
   {source: "4", target: "2", type: "cites"},
   {source: "2", target: "3", type: "cites"},
-  {source: "1", target: "3", type: "cites"}
+  {source: "1", target: "7", type: "cites"}
 ];
 
 var nodes = {};
 var recidMap = {
-
 };
 
+var linkSample = {};
+
+// LOAD JSON DATA you (probably) construct with python scripts.
+var sample1 = d3.json("sample_1.json",function(data) {
+  data.forEach(function(paper) {
+    paper.references.forEach(function(reference) {
+      links.push({source: paper.recid, target: reference, type: "cites"} );
+    });
+  });
+  console.log(links.length);
+
+});
+console.log(links.length)
+/*
+var sample2 = d3.json("sample_2.json",function(data) {
+  links.add([sample2]);
+
+});
+*/
                 
 // Compute the distinct nodes from the links.
+
 links.forEach(function(link) {
   link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
   link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
 });
+
 
 var width = 960,
     height = 500;
