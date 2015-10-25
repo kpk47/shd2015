@@ -30,6 +30,7 @@ def find_many(recid_list, peers=1, count=1):
     refs = []
     for recid in recid_list:
         refs += find_paper(recid, peers)
-    recs = [x for x in set(refs) if refs.count(x) >= count]
+    recs = [x for x in set(refs) if refs.count(x) >= count and
+            x not in recid_list]
     recs.sort()
     return recs
